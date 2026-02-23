@@ -6,7 +6,7 @@ import org.openqa.selenium.By
 
 class LoginPage {
 
-    private val driver = DriverManager.getDriver()
+    private val driver get() = DriverManager.getDriver()
 
     fun navigateToLoginPage() {
         driver.get(ConfigReader.getBaseUrl())

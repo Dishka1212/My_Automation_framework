@@ -4,7 +4,7 @@ import com.myproject.pageobject.LoginPage
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.When
 import io.cucumber.java.en.Then
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions
 
 class LoginStepDefs {
 
@@ -24,6 +24,6 @@ class LoginStepDefs {
 
     @Then("the user should see the products page")
     fun verifyPage() {
-        assertTrue(loginPage.isOnProductsPage())
+        Assertions.assertTrue(loginPage.isOnProductsPage())
     }
 }

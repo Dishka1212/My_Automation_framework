@@ -1,66 +1,55 @@
 plugins {
-    kotlin("jvm") version "1.9.23"
-    id("java")
-    id("io.qameta.allure") version "2.11.2"
+    kotlin("jvm") version "1.9.22"
+    java
 }
+
+group = "com.myproject"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
 }
 
+/* === Read versions from gradle.properties === */
+
+val cucumberVersion: String by project
+val allureVersion: String by project
+val seleniumVersion: String by project
+val webdrivermanagerVersion: String by project
+val junitPlatformVersion: String by project
+val slf4jVersion: String by project
+val logbackVersion: String by project
+val junitJupiterVersion: String by project
+
 dependencies {
 
-    // Cucumber
-    testImplementation("io.cucumber:cucumber-java:7.14.0")
-    testImplementation("io.cucumber:cucumber-junit-platform-engine:7.14.0")
-    testImplementation("io.cucumber:cucumber-core:7.14.0")
-
-    // JUnit Platform Suite (Required for @Suite)
-    testImplementation("org.junit.platform:junit-platform-suite:1.10.2")
-
-// Allure for Cucumber + JUnit5
-    testImplementation("io.qameta.allure:allure-java-commons:2.24.0")
-    testImplementation("io.qameta.allure:allure-junit5:2.24.0")
-    testImplementation("io.qameta.allure:allure-cucumber7-jvm:2.24.0")
+    // Kotlin
+    implementation(kotlin("stdlib"))
 
     // Selenium
-    testImplementation("org.seleniumhq.selenium:selenium-java:4.23.0")
+    implementation("org.seleniumhq.selenium:selenium-java:$seleniumVersion")
 
     // WebDriverManager
-    testImplementation("io.github.bonigarcia:webdrivermanager:5.9.2")
+    implementation("io.github.bonigarcia:webdrivermanager:$webdrivermanagerVersion")
 
-    // JUnit
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    // Cucumber
+    testImplementation("io.cucumber:cucumber-java:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-junit-platform-engine:$cucumberVersion")
 
-    // Kotlin test
-    testImplementation(kotlin("test"))
+    // Allure
+    testImplementation("io.qameta.allure:allure-cucumber7-jvm:$allureVersion")
+
+    // JUnit Platform Suite
+    testImplementation("org.junit.platform:junit-platform-suite:$junitPlatformVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+
+
+    // Logging
+    testImplementation("org.slf4j:slf4j-api:$slf4jVersion")
+    testImplementation("ch.qos.logback:logback-classic:$logbackVersion")
 }
 
 tasks.test {
     useJUnitPlatform()
 }
-
-kotlin {
-    jvmToolchain(17)
-}
-
-allure {
-    version.set("2.24.0")
-
-    adapter {
-        allureJavaVersion.set("2.24.0")
-
-        frameworks {
-            junit5 {
-                // Allure adapter for JUnit5
-                adapterVersion.set("2.24.0")
-            }
-            cucumberJvm {
-                // Allure adapter for Cucumber JVM
-                adapterVersion.set("2.24.0")
-            }
-        }
-    }
-}
-
